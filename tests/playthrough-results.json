@@ -1,0 +1,117 @@
+{
+  "natural_wave_playthrough": {
+    "wave": 11,
+    "level": 11,
+    "bossKills": 2,
+    "bossTime": 74.04583333332889,
+    "kills": 92,
+    "runTime": 287.04166666673393,
+    "levelWaves": [
+      {
+        "level": 2,
+        "wave": 2,
+        "time": 20.983333333333423
+      },
+      {
+        "level": 3,
+        "wave": 3,
+        "time": 33.683333333332705
+      },
+      {
+        "level": 4,
+        "wave": 4,
+        "time": 45.43333333333204
+      },
+      {
+        "level": 6,
+        "wave": 5,
+        "time": 128.17916666666042
+      },
+      {
+        "level": 7,
+        "wave": 5,
+        "time": 130.1124999999953
+      },
+      {
+        "level": 8,
+        "wave": 7,
+        "time": 153.99583333334763
+      },
+      {
+        "level": 9,
+        "wave": 8,
+        "time": 176.6958333333657
+      },
+      {
+        "level": 10,
+        "wave": 9,
+        "time": 188.7291666667086
+      },
+      {
+        "level": 11,
+        "wave": 10,
+        "time": 284.408333333403
+      }
+    ],
+    "maxes": {
+      "enemies": 12,
+      "bullets": 11,
+      "enemyBullets": 64,
+      "gems": 9,
+      "particles": 500,
+      "floating": 24,
+      "effects": 1
+    },
+    "state": "PLAYING"
+  },
+  "boss_tuning": {
+    "pulse": {
+      "time": 73.86666666666376,
+      "remaining": 0,
+      "dead": true
+    },
+    "nova": {
+      "time": 90.01666666666284,
+      "remaining": 0,
+      "dead": true
+    },
+    "rail": {
+      "time": 73.34999999999712,
+      "remaining": 0,
+      "dead": true
+    },
+    "arc": {
+      "time": 74.34999999999707,
+      "remaining": 0,
+      "dead": true
+    },
+    "void": {
+      "time": 63.01666666666437,
+      "remaining": 0,
+      "dead": true
+    }
+  },
+  "soak_30min_game_time": {
+    "wave": 53,
+    "gameTime": 1790.249999998699,
+    "max": {
+      "enemies": 35,
+      "bullets": 54,
+      "enemyBullets": 32,
+      "gems": 36,
+      "particles": 500,
+      "floating": 24,
+      "effects": 24
+    },
+    "bad": [],
+    "glowCache": 23,
+    "voices": 0
+  },
+  "firefox": {
+    "unverified": "BrowserType.launch: Executable doesn't exist at /home/sandbox/.cache/ms-playwright/firefox-1543/firefox/firefox\n\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n\u2551 Looks like Playwright was just installed or updated.       \u2551\n\u2551 Please run the following command to download new browsers: \u2551\n\u2551                                                            \u2551\n\u2551     playwright install                                     \u2551\n\u2551                                                            \u2551\n\u2551 <3 Playw"
+  },
+  "webkit": {
+    "unverified": "BrowserType.launch: Executable doesn't exist at /home/sandbox/.cache/ms-playwright/webkit-2359/pw_run.sh\n\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n\u2551 Looks like Playwright was just installed or updated.       \u2551\n\u2551 Please run the following command to download new browsers: \u2551\n\u2551                                                            \u2551\n\u2551     playwright install                                     \u2551\n\u2551                                                            \u2551\n\u2551 <3 Playwright T"
+  },
+  "console_errors": []
+}

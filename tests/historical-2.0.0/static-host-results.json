@@ -1,0 +1,9 @@
+{
+  "staticHostState": "PLAYING",
+  "audioVoices": 2,
+  "consoleErrors": [],
+  "smoke": {
+    "ok": true,
+    "errors": []
+  }
+}

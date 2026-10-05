@@ -1,0 +1,41 @@
+{
+  "modified": [
+    "CHANGELOG.md",
+    "README.md",
+    "docs/QA.md",
+    "js/config.js",
+    "js/enemies.js",
+    "js/save.js",
+    "js/ui.js",
+    "js/weapons.js",
+    "tests/core-results.json",
+    "tests/core_playwright.py",
+    "tests/effects_playwright.py",
+    "tests/playthrough-results.json",
+    "tests/playthrough_playwright.py",
+    "tests/targeted-results.json",
+    "tests/targeted_playwright.py"
+  ],
+  "added": [
+    "GUIDE.md",
+    "docs/Guide-2.0.0-historical.pdf",
+    "docs/QA-2.0.0-historical.md",
+    "docs/review-2.0.1/boss-desktop.png",
+    "docs/review-2.0.1/core-matrix-desktop.png",
+    "docs/review-2.0.1/core-matrix-portrait.png",
+    "tests/historical-2.0.0/firefox-results.json",
+    "tests/historical-2.0.0/static-host-results.json",
+    "tests/regression-results.json",
+    "tests/regression_playwright.py"
+  ],
+  "removed": [
+    "NEON-RIFT-v2-Guide.pdf",
+    "docs/Guide.pdf",
+    "tests/__pycache__/core_playwright.cpython-313.pyc",
+    "tests/__pycache__/effects_playwright.cpython-313.pyc",
+    "tests/__pycache__/playthrough_playwright.cpython-313.pyc",
+    "tests/__pycache__/targeted_playwright.cpython-313.pyc",
+    "tests/firefox-results.json",
+    "tests/static-host-results.json"
+  ]
+}

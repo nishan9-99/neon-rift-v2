@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080d1b">
+<link rel="icon" href="data:,">
+<title>NEON RIFT | Rift Protocol</title>
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/hud.css">
+<link rel="stylesheet" href="css/menus.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-screen="menu">
+<canvas id="game" aria-label="Neon Rift game arena"></canvas>
+
+<div class="hud" id="hud">
+  <div class="top">
+    <div>
+      <div class="brand">NEON RIFT // RIFT PROTOCOL</div>
+      <div class="statline">
+        <div class="stat"><small>WAVE</small><strong id="wave">00</strong></div>
+        <div class="stat"><small>SCORE</small><strong id="score">000000</strong></div>
+        <div class="stat"><small>BEST</small><strong id="best">000000</strong></div>
+      </div>
+      <div class="xpbox"><small id="levelLabel">RIFT LEVEL 01</small><div class="track"><i id="xpFill"></i></div><span id="xpText">0 / 89</span></div>
+    </div>
+    <div class="center"><div id="combo"></div><div id="bossHud" hidden><small id="bossName">RIFT OVERLORD</small><div class="track"><i id="bossFill"></i></div><span id="bossHP"></span></div><div class="hostiles"><small>HOSTILES REMAINING</small><b id="hostiles">00</b></div></div>
+    <div class="healthbox">
+      <small>SHIELD INTEGRITY</small>
+      <div class="bar"><i id="health"></i></div>
+      <b id="healthText">100 / 100</b><div id="critical" hidden>⚠ CRITICAL SHIELD</div><div id="buffs"></div>
+    </div>
+  </div>
+  <div id="tutorialHint" role="status"></div><div class="message" id="message" role="status"></div>
+  <div class="bottom"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> MOVE &nbsp; <kbd>MOUSE</kbd> AIM &nbsp; <kbd>CLICK</kbd> FIRE &nbsp; <kbd>SPACE</kbd> DASH &nbsp; <kbd>P</kbd> PAUSE</div>
+  <div class="rightbottom">
+    <div class="cd" aria-label="Dash cooldown"><span>DASH</span><div class="track"><i id="dashFill"></i></div><b id="dashText">READY</b></div>
+    <div class="cd"><span>ABILITY</span><div class="track"><i id="abilityFill"></i></div><b id="abilityText">NONE</b></div><span id="soundLabel">SOUND ON</span>
+    <button id="soundBtn" aria-label="Toggle sound">&#9835;</button>
+    <button id="pauseBtn" aria-label="Pause game">&#8545;</button>
+  </div>
+</div>
+
+<div class="mobile-controls">
+  <div class="stick" id="stick"><div class="nub" id="nub"></div></div>
+  <button class="dashbtn" id="dashBtn" aria-label="Dash">DASH</button>
+  <button class="abilitybtn" id="abilityBtn" aria-label="Use ability">ABILITY</button>
+  <button class="fire" id="fire" aria-label="Fire">FIRE</button>
+</div>
+
+<div class="veil" id="veil">
+  <div class="card" role="dialog" aria-modal="true" aria-labelledby="title">
+    <div class="eyebrow" id="eyebrow"></div>
+    <h1 id="title"></h1>
+    <p id="description"></p>
+    <div class="info" id="instructions"></div>
+    <div id="panelContent"></div><div class="buttons" id="cardButtons"></div>
+    <div class="footer" id="footer" hidden></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+<div class="perf" id="perf" hidden></div>
+
+<script defer src="js/config.js"></script>
+<script defer src="js/utils.js"></script>
+<script defer src="js/save.js"></script>
+<script defer src="js/audio.js"></script>
+<script defer src="js/input.js"></script>
+<script defer src="js/particles.js"></script>
+<script defer src="js/stats.js"></script>
+<script defer src="js/upgrades.js"></script>
+<script defer src="js/weapons.js"></script>
+<script defer src="js/abilities.js"></script>
+<script defer src="js/enemies.js"></script>
+<script defer src="js/bosses.js"></script>
+<script defer src="js/waves.js"></script>
+<script defer src="js/pickups.js"></script>
+<script defer src="js/achievements.js"></script>
+<script defer src="js/player.js"></script>
+<script defer src="js/render.js"></script>
+<script defer src="js/ui.js"></script>
+<script defer src="js/game.js"></script>
+<script defer src="js/debug.js"></script>
+<script defer src="js/main.js"></script>
+</body>
+</html>

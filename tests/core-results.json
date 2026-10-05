@@ -1,0 +1,230 @@
+[
+  {
+    "name": "boot MENU",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "debug hidden on normal URL",
+    "pass": true,
+    "detail": "checked separately below"
+  },
+  {
+    "name": "integrated smoke test",
+    "pass": true,
+    "detail": "MENU"
+  },
+  {
+    "name": "level-up freezes world",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "three unique cards",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "level overlay world freeze",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "queued levelups resolve",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "upgrade installed",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "stat caps",
+    "pass": true,
+    "detail": {
+      "hp": 175,
+      "speed": 344.5,
+      "damage": 1.2160000000000002,
+      "fireRate": 1.5,
+      "crit": 0.4,
+      "critMult": 3.25,
+      "reduction": 0.3,
+      "pickup": 140,
+      "dashCd": 1.38,
+      "impulse": 883.9999999999999,
+      "pierce": 3,
+      "speedBullet": 1.3599999999999999,
+      "size": 1.3599999999999999,
+      "xp": 1.6500000000000001,
+      "score": 1.4,
+      "duration": 1.45,
+      "lifetime": 1.9,
+      "abilityCd": 14,
+      "taken": 1,
+      "regen": 2.4,
+      "ram": 75
+    }
+  },
+  {
+    "name": "all five weapon patterns hit",
+    "pass": true,
+    "detail": {
+      "pulse": 10,
+      "nova": 42,
+      "rail": 120,
+      "arc": 14,
+      "void": 44
+    }
+  },
+  {
+    "name": "Shockburst damage and cooldown",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "wave5 boss intro",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "boss fight starts",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "all boss attacks telegraph and execute",
+    "pass": true,
+    "detail": {
+      "bullet": {
+        "warning": true,
+        "bullets": 64,
+        "rings": 0,
+        "telegraphs": 0
+      },
+      "laser": {
+        "warning": true,
+        "bullets": 64,
+        "rings": 0,
+        "telegraphs": 0
+      },
+      "summon": {
+        "warning": true,
+        "bullets": 64,
+        "rings": 3,
+        "telegraphs": 8
+      },
+      "charge": {
+        "warning": true,
+        "bullets": 64,
+        "rings": 3,
+        "telegraphs": 8
+      },
+      "shock": {
+        "warning": true,
+        "bullets": 64,
+        "rings": 6,
+        "telegraphs": 8
+      }
+    }
+  },
+  {
+    "name": "boss phase thresholds",
+    "pass": true,
+    "detail": [
+      1,
+      2,
+      1.5
+    ]
+  },
+  {
+    "name": "boss defeat reward screen",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "first boss Nova unlock",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "boss rewards resume",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "event applies stats",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "boss disables events",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "shop purchase persists",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "reload loadout retained",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "settings return resumes correct run",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "corrupt save notice and backup",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "multitouch ownership",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "resize no invalid coordinates",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "desktop headless frame rate",
+    "pass": true,
+    "detail": 60.5
+  },
+  {
+    "name": "console clean",
+    "pass": true,
+    "detail": []
+  },
+  {
+    "name": "zero network requests",
+    "pass": true,
+    "detail": []
+  },
+  {
+    "name": "storage blocked graceful",
+    "pass": true,
+    "detail": []
+  },
+  {
+    "name": "audio absent graceful",
+    "pass": true,
+    "detail": []
+  },
+  {
+    "name": "storage full graceful",
+    "pass": true,
+    "detail": []
+  },
+  {
+    "name": "debug mutators absent in normal mode",
+    "pass": true,
+    "detail": ""
+  }
+]

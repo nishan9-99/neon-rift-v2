@@ -1,0 +1,166 @@
+[
+  {
+    "name": "import overspec",
+    "passed": true,
+    "detail": {
+      "precision": 5,
+      "hypercharge": 5
+    }
+  },
+  {
+    "name": "import negative",
+    "passed": true,
+    "detail": {}
+  },
+  {
+    "name": "import fractional",
+    "passed": true,
+    "detail": {
+      "precision": 2
+    }
+  },
+  {
+    "name": "import missing prerequisites",
+    "passed": true,
+    "detail": {}
+  },
+  {
+    "name": "import unknown/non-numeric",
+    "passed": true,
+    "detail": {}
+  },
+  {
+    "name": "import array",
+    "passed": true,
+    "detail": {}
+  },
+  {
+    "name": "legacy key caps/prerequisites",
+    "passed": true,
+    "detail": {
+      "precision": 5,
+      "hypercharge": 5
+    }
+  },
+  {
+    "name": "legacy key malformed shape",
+    "passed": true,
+    "detail": {}
+  },
+  {
+    "name": "main save wins over stale legacy key",
+    "passed": true,
+    "detail": {}
+  },
+  {
+    "name": "UI direct invalid-state recovery",
+    "passed": true,
+    "detail": {}
+  },
+  {
+    "name": "export/import exact roundtrip",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "reject wrong checksum",
+    "passed": true,
+    "detail": null
+  },
+  {
+    "name": "respec exact refund and reload",
+    "passed": true,
+    "detail": {
+      "refund": 140,
+      "shards": 140,
+      "talents": {}
+    }
+  },
+  {
+    "name": "Elite Radar increases spawn rate",
+    "passed": true,
+    "detail": {
+      "rank0": 157,
+      "rank3": 210
+    }
+  },
+  {
+    "name": "Elite Radar rewards match ranks",
+    "passed": true,
+    "detail": {
+      "rank0": 0,
+      "rank1": 1,
+      "rank3": 3
+    }
+  },
+  {
+    "name": "Lance pull toward beam -20",
+    "passed": true,
+    "detail": 0
+  },
+  {
+    "name": "Lance pull toward beam 20",
+    "passed": true,
+    "detail": 0
+  },
+  {
+    "name": "Lance pull toward beam 4",
+    "passed": true,
+    "detail": 0
+  },
+  {
+    "name": "Scavenger fractional reward persists",
+    "passed": true,
+    "detail": 0.75
+  },
+  {
+    "name": "evolution hyper_pulse",
+    "passed": true,
+    "detail": {
+      "offered": true,
+      "installed": true,
+      "damage": 575
+    }
+  },
+  {
+    "name": "evolution supernova",
+    "passed": true,
+    "detail": {
+      "offered": true,
+      "installed": true,
+      "damage": 89.93600000000151
+    }
+  },
+  {
+    "name": "evolution tesla_storm",
+    "passed": true,
+    "detail": {
+      "offered": true,
+      "installed": true,
+      "damage": 140
+    }
+  },
+  {
+    "name": "evolution singularity_lance",
+    "passed": true,
+    "detail": {
+      "offered": true,
+      "installed": true,
+      "damage": 278.40000000000873
+    }
+  },
+  {
+    "name": "evolution event_horizon",
+    "passed": true,
+    "detail": {
+      "offered": true,
+      "installed": true,
+      "damage": 428.266666666721
+    }
+  },
+  {
+    "name": "no page errors",
+    "passed": true,
+    "detail": []
+  }
+]

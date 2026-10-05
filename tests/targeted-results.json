@@ -1,0 +1,119 @@
+{
+  "hazards": {
+    "mine": {
+      "telegraphSafe": true,
+      "damage": 25
+    },
+    "zone": {
+      "telegraphSafe": true,
+      "damage": 6
+    },
+    "drag": {
+      "telegraphSafe": true,
+      "damage": 0
+    }
+  },
+  "pause_freeze": true,
+  "spawn_safety": 324.00197449516753,
+  "rarity_and_fallback": {
+    "valid": true,
+    "fallback": true
+  },
+  "ship_tradeoffs": {
+    "striker": {
+      "hp": 100,
+      "speed": 265,
+      "damage": 1,
+      "fireRate": 1,
+      "crit": 0,
+      "critMult": 2,
+      "reduction": 0,
+      "pickup": 70,
+      "dashCd": 2.3,
+      "impulse": 650,
+      "pierce": 0,
+      "speedBullet": 1,
+      "size": 1,
+      "xp": 1.1,
+      "score": 1,
+      "duration": 1,
+      "lifetime": 1,
+      "abilityCd": 14,
+      "taken": 1,
+      "regen": 0,
+      "ram": 0
+    },
+    "wraith": {
+      "hp": 80,
+      "speed": 344.5,
+      "damage": 1,
+      "fireRate": 1,
+      "crit": 0,
+      "critMult": 2,
+      "reduction": 0,
+      "pickup": 70,
+      "dashCd": 1.9549999999999998,
+      "impulse": 650,
+      "pierce": 0,
+      "speedBullet": 1,
+      "size": 1,
+      "xp": 1,
+      "score": 1,
+      "duration": 1,
+      "lifetime": 1,
+      "abilityCd": 14,
+      "taken": 1,
+      "regen": 0,
+      "ram": 0
+    },
+    "titan": {
+      "hp": 150,
+      "speed": 212,
+      "damage": 1,
+      "fireRate": 1,
+      "crit": 0,
+      "critMult": 2,
+      "reduction": 0,
+      "pickup": 70,
+      "dashCd": 2.3,
+      "impulse": 650,
+      "pierce": 0,
+      "speedBullet": 1,
+      "size": 1,
+      "xp": 1,
+      "score": 1,
+      "duration": 1,
+      "lifetime": 1,
+      "abilityCd": 14,
+      "taken": 1,
+      "regen": 0,
+      "ram": 40
+    },
+    "adept": {
+      "hp": 100,
+      "speed": 265,
+      "damage": 0.9,
+      "fireRate": 1.4285714285714286,
+      "crit": 0,
+      "critMult": 2,
+      "reduction": 0,
+      "pickup": 70,
+      "dashCd": 1.6099999999999999,
+      "impulse": 650,
+      "pierce": 0,
+      "speedBullet": 1,
+      "size": 1,
+      "xp": 1,
+      "score": 1,
+      "duration": 1,
+      "lifetime": 1,
+      "abilityCd": 9.799999999999999,
+      "taken": 1,
+      "regen": 0,
+      "ram": 0
+    }
+  },
+  "boss_intro_skip": "BOSS_FIGHT",
+  "damage_dash_immunity": true,
+  "errors": []
+}

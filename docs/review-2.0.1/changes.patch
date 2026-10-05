@@ -1,0 +1,426 @@
+--- original/CHANGELOG.md
++++ fixed/CHANGELOG.md
+@@ -1,4 +1,14 @@
+ # Changelog
++
++## 2.0.1 - owner review build (October 5, 2026)
++- Shared talent validation on main-save load, legacy-key migration, import, export, respec and grid entry. Unknown IDs removed; integer ranks capped per node; prerequisite chain enforced; safe grid pip counts.
++- Main save takes precedence over stale dedicated talent key. Persist normalized migration. Preserve Scavenger Matrix fractional reward accumulator across reload.
++- Elite Radar now increases base elite-affix probability by 15% relatively per rank, retains alive caps and awards +1 shard per rank. Label now states relative elite-affix chance.
++- Singularity Lance pull direction fixed; pull amount capped to distance from beam.
++- README/QA refreshed; obsolete guides/reports labeled historical. Added current setup/review guide and 25-case regression suite.
++- Test scripts optionally accept NEON_CHROME, and the targeted fallback assertion accepts an eligible evolution before fallback cards.
++- Current results/screenshots included, Python cache and duplicate guide removed. No GitHub push or deployment.
++
+ 
+ ## 2.0.0 - playable RIFT PROTOCOL build (October 4, 2026)
+ The owner's updated request asked for a continuous full build instead of phase-by-phase stops. Phase numbers below describe work groups, not separate public releases or Git tags. Nothing was deployed or pushed.
+--- original/README.md
++++ fixed/README.md
+@@ -2,7 +2,7 @@
+ 
+ A local-first neon roguelite survival shooter. The original cyan ship, movement, Phase Dash and wave-shooter identity are preserved; XP protocols, weapon/ship loadouts, telegraphed elites, Rift Overlord fights and permanent unlocks make each run a build.
+ 
+-**Release:** 2.0.0 playable build. No engine, framework, bundler, CDN, downloaded fonts or external game assets. Vanilla HTML/CSS/JavaScript, Canvas 2D, Web Audio and localStorage.
++**Release:** 2.0.1 review build (October 5, 2026), not deployed. No engine, framework, bundler, CDN, downloaded fonts or external game assets. Vanilla HTML/CSS/JavaScript, Canvas 2D, Web Audio and localStorage.
+ 
+ ## Play
+ 1. Extract the complete ZIP. Do not run inside the compressed archive.
+@@ -29,7 +29,7 @@
+ 
+ ## Features
+ - XP diamonds from every kill, accelerating attraction, queued level-ups and three-card protocol offers.
+-- 28 global upgrades plus 15 weapon upgrades, stacking, caps, rarity gates and two rerolls per run.
++- 28 global upgrades, 15 weapon upgrades and 3 synergy protocols, plus 5 weapon evolutions; stacking, caps, rarity gates and two rerolls per run (more with Protocol Analyst).
+ - Five weapons: Pulse Cannon, Nova Shotgun, Rail Rifle, Arc Blaster, Void Orb.
+ - Four ships: Striker, Wraith, Titan, Adept; innate Phase Dash plus unlockable Shockburst.
+ - Threat-budget waves, onboarding, hostiles counter, six-tenths-second spawn warnings and alive caps.
+@@ -38,7 +38,10 @@
+ - Rift Overlord every fifth wave: phase transitions, Bullet Ring, Laser Sweep, Rift Summon, Charge and Shock Ring.
+ - Boss rewards, Rare-or-better free protocol, first-kill Nova unlock, run summary, shards and local armory.
+ - 12 achievements and discovery-based archives; four arena themes, five events, three hazards.
+-- Procedural audio/music, volume buses, pause duck/filter, quality tiers, reduced motion and mobile controls.
++- Procedural audio/music, low-shield heartbeat/filter, volume buses, pause duck/filter, quality tiers, reduced motion and mobile controls.
++- Core Matrix: 12 permanent talent nodes across offense, defense and utility, with shard purchase and full-refund respec.
++- Five weapon evolutions unlocked by weapon-upgrade level 5 plus a catalyst protocol. Each run starts unevolved.
++- Shootable Rift Nodes, drifting gravity pockets, touch aim assistance (off/low/strong), and checksum-checked save backup/restore.
+ 
+ ## Weapons and unlocks
+ | Weapon | Damage | Cooldown | Unlock |
+@@ -57,6 +60,13 @@
+ Save key: `neon-rift-save-v2`, version 2. V1 `neon-rift-best` is imported if the new save is missing. Corrupt JSON is copied to `neon-rift-save-v2-corrupt`; defaults and a notice are used. Unknown loadouts are checked against actual tables. Blocked/full storage falls back to memory for the current page session. Progress is local to the browser/origin/file location, not a cloud account.
+ 
+ Run-end shards: floor(wave x 4 + kills / 8 + level x 2). Boss shards are awarded immediately: 50 on the first-ever kill, 40 afterward. Achievements reward 25-100 once. Settings includes confirmed RESET PROGRESS.
++
++## New systems / corrected behavior
++- **Elite Radar:** each rank raises the base elite-affix chance by 15% relatively, and adds one shard per elite kill. Rank 3 changes a capped base 15% chance to 21.75%; existing alive-elite caps still apply. It does not multiply all enemy-type spawning.
++- **Singularity Lance:** its beam draws enemies toward the line without overshooting it.
++- **Talent safety:** known IDs only, integer ranks capped to each node's maximum, and each tier requires at least rank 1 in the prior tier. All imports and legacy talent-key migration share the same validator. Invalid ranks are removed/clamped, not refunded as purchases.
++- **Save ownership:** the main V2 save is authoritative; the old `neon_rift_talents` key is used only when no main save/talents field exists. Respec and restore cannot resurrect stale legacy ranks.
++- **Backup:** Settings > Export Save copies/downloads `NRSAVE1` text. Import Save validates checksum/schema and replaces stored progression. Back up first. The checksum detects corruption, not tampering or account identity.
+ 
+ ## Architecture / load order
+ ```
+@@ -86,12 +96,18 @@
+ ## Debug / tests
+ Append `?debug=1` to enable `window.__neonRift` and `NR.test.run()`. Debug mutators: skipToWave, spawn, spawnBoss, giveXP, levelUp, giveUpgrade, setWeapon, forceEvent, god, timeScale, perfOverlay, corruptSave, seed. `window.__neonRiftDebug()` is a read-only snapshot on both URLs. Debug controls are not drawn in normal play.
+ 
+-Development tests use Python Playwright: install Playwright and Chromium separately, then run `python3 tests/core_playwright.py`, `effects_playwright.py`, `targeted_playwright.py` or `playthrough_playwright.py`. They are not game dependencies. Tests deliberately manipulate state to verify effects; use a disposable browser profile. Saved JSON results describe the actual build checks.
++Development tests use Python Playwright: install Playwright and Chromium separately, then run `python3 tests/core_playwright.py`, `effects_playwright.py`, `targeted_playwright.py` or `playthrough_playwright.py` or `regression_playwright.py`. They are not game dependencies. Tests deliberately manipulate state to verify effects; use a disposable browser profile. Saved JSON results describe the actual build checks. The playthrough script also attempts Firefox/WebKit; a missing browser is reported as unverified.
++
++For an installed system Chrome instead of Playwright's bundled Chromium:
++`NEON_CHROME=/path/to/google-chrome python3 tests/regression_playwright.py`
+ 
+ ## Verification and limits
+-Chrome: 33/33 core checks and 25/25 effect/input checks. Firefox: boot/play and integrated smoke. Both ran from file://. Chrome static hosting and gesture-started audio verified. Safari/WebKit and Edge are not verified; no real-phone or physical-device 30-minute performance test was performed. `docs/QA.md` states the test methods and remaining gaps.
++Current Chrome checks: 33/33 core, 25/25 effects/input, 25/25 new regressions, plus targeted hazards/caps/pause and controller-driven wave 11. Five evolved weapons passed eligibility/install/damage smoke checks. All scripts pass syntax checking. The accelerated soak reached wave 53 with no non-finite positions; this is not a 30-minute wall-clock memory/audio test.
++
++Safari/WebKit, Edge, Firefox in this review environment and real phones remain unverified. Synthetic mobile layouts/controls are not a physical-device performance guarantee. See `docs/QA.md` for methods, exact limits and results. The archived Oct 4 QA/guide are historical and do not describe every current system.
+ 
+ ## Screenshots
++Bundled illustrative screenshots are from the earlier build. Current review captures are in `docs/review-2.0.1/`.
+ ![Menu](docs/menu.png)
+ ![Rift Overlord](docs/boss.png)
+ ![Touch protocols](docs/protocols-mobile.png)
+@@ -102,4 +118,4 @@
+ - The ±15% sustained weapon DPS goal is not claimed as verified; recorded idealized boss times are a tuning aid, not equivalent to player DPS.
+ - Some visual details are simpler than the brief: no camera zoom, compact summary count-up, and shared music/SFX recipes for some cues.
+ - UI focus and touch ownership were tested, but real assistive-technology and real-phone ergonomics need user testing.
+-- Future: a second boss, more weapons, daily challenge, gamepad support. Optional COULD content (permanent nodes, additional abilities, export/import, laser grid, auto-aim) is not included.
++- Future: a second boss, more weapons, daily challenge, gamepad support, additional abilities and Laser Grid. Touch aim assistance, permanent nodes and export/import ARE implemented; full autonomous auto-aim is not.
+--- original/docs/QA.md
++++ fixed/docs/QA.md
+@@ -1,38 +1,25 @@
+-# Verification record
++# Verification record: 2.0.1 review build
+ 
+-Build: 2.0.0, October 4, 2026. This is an honest executed-check record, not a promise that every acceptance box is proven.
++October 5, 2026. Local Chrome tests on this fixed ZIP. Not pushed or deployed.
+ 
+-## Executed
+-- Chrome file://: 33/33 core assertions; 25/25 effect/input assertions. No page errors or warning/error console messages in those final suites; no external network requests.
+-- Firefox file://: MENU/PLAYING boot and integrated `NR.test.run()` passed without page errors.
+-- Chrome static host: PLAYING, gesture-started Web Audio and integrated smoke passed. Two live audio nodes at the sampled point.
+-- Input: real mouse/keyboard move/fire/dash, pause/resume, restart, synthetic per-pointer touch ownership. Settings-return preserves the paused run. Dash invulnerability blocks damage.
+-- Progression: XP, queued level-ups, frozen overlay, three distinct offers, stacking/caps, maxed fallback, rarity/weapon filters, install lock, all global special effects tested individually.
+-- Combat: five weapon patterns hit; Shockburst; six pickups; burn/freeze/chain/explosion/singularity/barrier/revive/regen/dash ram/overkill; gem merge cap.
+-- Boss: wave 5/10 schedule, intro skip, five telegraphed attack paths, phase thresholds, reward screen, free pick, Nova unlock. Recurring bosses add an offset ring variant. Base-weapon idealized fights were 65-84 seconds across five weapons in the final benchmark; invincibility was used to isolate outgoing damage and scripted positioning, not to prove normal-player survivability.
+-- Controller-driven progression (invincibility on, actual shots/XP/wave clears, no forced kill damage) reached wave 11, level 11 and two boss wins. Upgraded first boss took 52.4 seconds in the final seed run. First level-up occurred in wave 2. Strong protocols can beat bosses faster than the 60-90s base target.
+-- Accelerated ~30-minute simulation: 1790.1 game seconds, reached wave 59. Max 35 enemies / 31 player bullets / 32 enemy bullets / 48 gems / 500 particles / 24 texts / 33 short effects. No NaN positions; glow cache 19. This is NOT a 30-minute wall-clock heap/audio leak benchmark.
+-- Storage: V1 4321 best imported; corruption backup + notice; invalid fields; unknown loadouts; unavailable/full storage; reload purchase/loadout persistence.
+-- Missing Web Audio did not stop play.
+-- Hazards: warning intervals harmless; mine deals 25 after fuse, zone deals 6, drag deals no damage. Spawn-distance sample minimum 325px in the tested desktop setup.
+-- Visual inspection: actual screenshots at 1280x720, 390x844 touch portrait, 844x390 touch landscape and 2560x1080 ultrawide; menus, scrollable armory/settings, protocol cards, boss HUD, all four theme contrasts. Toasts are deferred/hidden on protocol choices so cards stay readable.
+-- Desktop headless Chrome sampled about 60-61 requestAnimationFrame callbacks/s. This is not a guarantee for phones or all graphics hardware.
+-- Legacy V1 SHA-256 unchanged: 6d62b30e020d1c67a64c8efe1d87f9f8a96d4b586cccb315ddb3a8b335bf10fa.
++## Fresh executed checks
++- `core_playwright.py`: 33/33 passed; no page/console errors; file://, storage blocked/full and audio-absent fallbacks.
++- `effects_playwright.py`: 25/25 passed; effects, pickups, input, death/restart, migration and audio voice budget.
++- `regression_playwright.py`: 25/25 passed. Overspec/negative/fractional/unknown talent imports, missing prerequisite removal, legacy talent-key migration, stale-key precedence, direct UI recovery, exact export roundtrip, wrong-checksum rejection, respec reload, persistent fractional scavenger rewards, all five evolved weapons.
++- Elite Radar deterministic sample: rank 0 = 157/1,000 elite affixes; rank 3 = 210/1,000. Both use seed 123 and a fresh enemy list per spawn, isolating probability from alive caps. Rank 0/1/3 rewards = 0/1/3 shards excluding achievement rewards.
++- Singularity Lance: signed offsets -20, +20 and +4 pixels moved to zero after one tick, with no cross-beam overshoot.
++- `targeted_playwright.py`: hazard warnings/damage, pause freeze, spawn safety, rarity eligibility/fallback (including eligible evolutions), ship stats, intro skip and dash immunity returned valid results without page errors.
++- Controller-driven invincible run: wave 11, level 11, two boss wins, 92 kills, about 287 game seconds. Real shots/XP/wave transitions, not manual enemy kill damage. This does not prove human survivability.
++- Base weapon invincible boss benchmarks: Pulse 73.9s, Nova 90.0s, Rail 73.4s, Arc 74.3s, Void 63.0s. Idealized scripted position and no upgrades, not sustained DPS parity.
++- Accelerated soak: 1,790.25 game seconds, wave 53. Max 35 enemies / 54 player bullets / 32 enemy bullets / 36 gems / 500 particles / 24 floating texts / 24 effects. No NaN positions. Not a wall-clock heap/audio leak benchmark.
++- All 21 JavaScript modules pass syntax checking.
++- Actual desktop Core Matrix, boss gameplay and portrait Core Matrix screenshots inspected; scroll layout and controls still render. Playthrough script also records portrait/landscape gameplay and protocol choice captures.
+ 
+-## Still unverified or simplified
+-- Edge and Safari, real iOS/Android devices, physical mid-range-phone performance and a real-time 30-minute heap/audio-node soak.
+-- Proof that every attack/hazard is avoidable in every viewport; safety warnings and i-frames exist, but exhaustive route testing was not done.
+-- Sustained DPS within +/-15% for every weapon/build/range. Starting values conflict with this target; Arc/Void were tuned, while measured fight times remain the disclosed benchmark.
+-- Exact last-detail visual/audio parity with the full brief. Some cues share recipes, no camera zoom, summary count-up is compact, archives use simple vector previews. Some effect timings/constants remain inline rather than all living in config/data.
+-- Fourteen-mode state structure is present and draw/update/enter/exit/onInput hooks exist, but world drawing is centralized through the renderer rather than separate bespoke drawings for each mode.
+-- The folder is fully playable without installs. Optional Python tests are development-only.
+-- Optional COULD tier omitted: alternate abilities, permanent nodes, second boss, save export/import, auto-aim, Laser Grid. No Git tags, deploy, account, ads, external assets or backend.
++## Results and scope
++JSON files in tests/ record these current runs. Missing optional Firefox/WebKit browser binaries are reported unverified, not passed. Historical reports are named separately; the earlier guide PDF is archived.
+ 
+-## Manual acceptance pass for the owner
+-1. Extract the folder, open root index.html, enter; move/aim/fire/dash and confirm the V1 feel.
+-2. Play waves 1-2, collect diamonds, choose with click / 1-3. Pause while a cooldown/buff runs, resume.
+-3. Reach wave 5. Dodge dashed warnings, dash through shock rings, defeat Overlord; check rewards and Nova unlock.
+-4. Die, read summary, buy a ship/weapon/arena, reload and confirm it persists.
+-5. Test touch movement + aim/fire with separate fingers, lift just the movement finger, then dash/ability.
+-6. Rotate, try portrait and landscape; test reduced motion, muted play and each arena.
+-7. On Edge/Safari/real phone, report any exact console error or control issue for a root-cause fix.
++## Still unverified
++Real iOS/Android input and performance, Safari/Edge/full Firefox compatibility, assistive-technology ergonomics, real-time 30-minute memory/audio stability, every hazard-dodge route, +/-15% sustained DPS parity, exact match to an absent original change brief. Evolution tests prove basic eligibility/install/damage, not exhaustive visual/balance correctness. No claim that every possible issue is fixed.
++
++## Owner review
++Extract the ZIP and open index.html. Try waves 1-5, unlock/buy an item, open the Core Matrix, make a backup in Settings, restore it, reload, and check portrait/landscape on your own phone. Do not treat imported saves as trusted or private unless you know their source.
+--- original/js/config.js
++++ fixed/js/config.js
+@@ -269,7 +269,7 @@
+           { id: 'shard_attractor', name: 'SHARD ATTRACTOR', baseCost: 50, max: 5, per: 0.1, unit: 'pickup', label: v => '+' + Math.round(v * 100) + '% pickup radius' },
+           { id: 'scavenger_matrix', name: 'SCAVENGER MATRIX', baseCost: 80, max: 5, per: 0.025, unit: 'shardPerKill', label: v => '+' + v.toFixed(3) + ' shards per kill' },
+           { id: 'protocol_analyst', name: 'PROTOCOL ANALYST', baseCost: 200, max: 2, per: 1, unit: 'rerolls', label: v => '+' + v + ' starting reroll' + (v === 1 ? '' : 's') },
+-          { id: 'elite_radar', name: 'ELITE RADAR', baseCost: 160, max: 3, per: 0.15, unit: 'elite', label: v => '+' + Math.round(v * 100) + '% elite spawn rate, +' + Math.round(v / .15) + ' shard per elite' }
++          { id: 'elite_radar', name: 'ELITE RADAR', baseCost: 160, max: 3, per: 0.15, unit: 'elite', label: v => '+' + Math.round(v * 100) + '% relative elite-affix chance, +' + Math.round(v / .15) + ' shard per elite' }
+         ]
+       }
+     }
+--- original/js/enemies.js
++++ fixed/js/enemies.js
+@@ -164,7 +164,12 @@
+           cloak: false,
+           burns: []
+         };
+-      if (!noAffix && !e.elite && N.world.enemies.filter(e => e.elite && !e.dead).length < N.waves.eliteCap() && wave >= C.enemyBehavior.affixFrom && R.chance(Math.min(C.enemyBehavior.affixCap, C.enemyBehavior.affixChance + (wave - C.enemyBehavior.affixFrom) * C.enemyBehavior.affixPerWave))) {
++      const radarRank = N.save.sanitizeTalents(N.save.data.talents).elite_radar || 0;
++      const baseAffixChance = Math.min(C.enemyBehavior.affixCap,
++        C.enemyBehavior.affixChance + (wave - C.enemyBehavior.affixFrom) * C.enemyBehavior.affixPerWave);
++      // +15% relative chance per rank, with the existing alive-elite cap unchanged.
++      const affixChance = Math.min(0.95, baseAffixChance * (1 + radarRank * 0.15));
++      if (!noAffix && !e.elite && N.world.enemies.filter(e => e.elite && !e.dead).length < N.waves.eliteCap() && wave >= C.enemyBehavior.affixFrom && R.chance(affixChance)) {
+         e.affix = ['swift', 'armored', 'volatile'][R.int(0, 3)];
+         e.elite = true;
+         e.hp *= C.enemyBehavior.affixHP;
+@@ -216,8 +221,9 @@
+           N.save.data.stats.scavengerAccum -= add;
+         }
+       }
+-      if (e.elite && tal.elite_radar) {
+-        N.save.data.shards += Math.max(1, Math.round(tal.elite_radar / 0.15));
++      const radarRewardRank = N.save.sanitizeTalents(tal).elite_radar || 0;
++      if (e.elite && radarRewardRank) {
++        N.save.data.shards += radarRewardRank;
+       }
+       if (e.affix === 'volatile' && W.hazards.length < 3) W.hazards.push({
+         id: 'volatile',
+--- original/js/save.js
++++ fixed/js/save.js
+@@ -63,7 +63,9 @@
+         kills: 0,
+         bossKills: 0,
+         highestWave: 0,
+-        timePlayed: 0
++        timePlayed: 0,
++        dashKills: 0,
++        scavengerAccum: 0
+       },
+       shards: 0,
+       unlocks: {
+@@ -114,6 +116,26 @@
+   };
+   const obj = v => (v && typeof v === 'object' && !Array.isArray(v) ? v : {});
+ 
++  // One validator for main saves, legacy talent storage, imports and UI recovery.
++  function sanitizeTalents(raw) {
++    const source = obj(raw), out = {};
++    const branches = (NR.CONFIG.TALENTS && NR.CONFIG.TALENTS.branches) || {};
++    Object.values(branches).forEach(branch => {
++      let previous = 1;
++      branch.nodes.forEach(node => {
++        const rank = previous >= 1 ? Math.floor(num(source[node.id], 0, 0, node.max)) : 0;
++        if (rank > 0) out[node.id] = rank;
++        previous = rank;
++      });
++    });
++    return out;
++  }
++
++  function readLegacyTalents() {
++    try { return sanitizeTalents(JSON.parse(read(TALENTS_KEY) || '{}')); }
++    catch (e) { return {}; }
++  }
++
+   function validate(raw) {
+     const d = defaults(),
+       r = obj(raw),
+@@ -129,7 +151,8 @@
+       bossKills: Math.floor(num(s.bossKills, 0, 0, 1e9)),
+       highestWave: Math.floor(num(s.highestWave, 0, 0, 1e6)),
+       timePlayed: num(s.timePlayed, 0, 0, 1e10),
+-      dashKills: Math.floor(num(s.dashKills, 0, 0, 1e9))
++      dashKills: Math.floor(num(s.dashKills, 0, 0, 1e9)),
++      scavengerAccum: num(s.scavengerAccum, 0, 0, 1)
+     };
+     out.shards = Math.floor(num(r.shards, 0, 0, 1e9));
+     ['weapons', 'ships', 'abilities', 'arenas'].forEach(k => {
+@@ -141,11 +164,7 @@
+       ability: typeof l.ability === 'string' ? l.ability : d.loadout.ability,
+       arena: typeof l.arena === 'string' ? l.arena : d.loadout.arena
+     };
+-    const tal = obj(r.talents);
+-    out.talents = {};
+-    Object.keys(tal).slice(0, 32).forEach(k => {
+-      out.talents[k] = Math.floor(num(tal[k], 0, 0, 10));
+-    });
++    out.talents = sanitizeTalents(r.talents);
+     const ach = obj(r.achievements);
+     Object.keys(ach).slice(0, 64).forEach(k => {
+       const t = Number(ach[k]);
+@@ -178,6 +197,7 @@
+   const S = NR.save = {
+     data: defaults(),
+     notice: '',
++    sanitizeTalents,
+     sanitizeLoadout() {
+       const d = S.data,
+         tables = {
+@@ -208,13 +228,7 @@
+         if (isFinite(v1) && v1 > 0) {
+           S.data.best = Math.floor(clamp(v1, 0, 1e9));
+         }
+-        /* Check dedicated talents key */
+-        const rawTal = read(TALENTS_KEY);
+-        if (rawTal) {
+-          try {
+-            S.data.talents = JSON.parse(rawTal) || {};
+-          } catch (e) {}
+-        }
++        S.data.talents = readLegacyTalents();
+         S.commit(true);
+         return S.data;
+       }
+@@ -222,15 +236,12 @@
+         const parsed = JSON.parse(raw);
+         if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed) || parsed.v !== 2) throw new Error('bad shape');
+         S.data = validate(parsed);
+-        const rawTal = read(TALENTS_KEY);
+-        if (rawTal) {
+-          try {
+-            const parsedTal = JSON.parse(rawTal);
+-            if (parsedTal && typeof parsedTal === 'object') {
+-              S.data.talents = Object.assign({}, parsedTal, S.data.talents);
+-            }
+-          } catch (e) {}
++        // The main save is authoritative. Use the old key only for older saves
++        // with no talents field; never resurrect talents removed by respec/import.
++        if (!Object.prototype.hasOwnProperty.call(parsed, 'talents')) {
++          S.data.talents = readLegacyTalents();
+         }
++        S.commit(true);
+       } catch (e) {
+         write(BADKEY, String(raw).slice(0, 200000));
+         S.data = defaults();
+@@ -262,7 +273,7 @@
+       S.commit(true);
+     },
+     exportSave() {
+-      const payload = JSON.stringify(S.data);
++      const payload = JSON.stringify(validate(S.data));
+       const b64 = btoa(unescape(encodeURIComponent(payload)));
+       const cs = checksum(payload).toString(16).padStart(8, '0');
+       const prefix = (NR.CONFIG.saveExport && NR.CONFIG.saveExport.prefix) || 'NRSAVE1';
+@@ -301,7 +312,7 @@
+       return { success: true, shards: S.data.shards, best: S.data.best };
+     },
+     respecTalents() {
+-      const talents = S.data.talents || {};
++      const talents = sanitizeTalents(S.data.talents);
+       const cfg = NR.CONFIG.TALENTS;
+       let refund = 0;
+       if (cfg && cfg.branches) {
+--- original/js/ui.js
++++ fixed/js/ui.js
+@@ -284,7 +284,7 @@
+     coreMatrix() {
+       back = 'MENU';
+       const s = N.save.data;
+-      s.talents = s.talents || {};
++      s.talents = N.save.sanitizeTalents(s.talents);
+       open('CORE <span>MATRIX</span>', 'PERMANENT PROTOCOL GRID // ' + s.shards.toLocaleString() + ' RIFT SHARDS AVAILABLE', 'LOADOUT');
+       $('veil').querySelector('.card').classList.add('wide');
+ 
+@@ -324,7 +324,7 @@
+         nodesDiv.className = 'matrix-nodes';
+ 
+         branch.nodes.forEach((node, idx) => {
+-          const rank = s.talents[node.id] || 0;
++          const rank = Math.max(0, Math.min(node.max, Math.floor(Number(s.talents[node.id]) || 0)));
+           const maxed = rank >= node.max;
+           const prereqMet = idx === 0 || (s.talents[branch.nodes[idx - 1].id] || 0) >= 1;
+           const locked = !prereqMet;
+@@ -334,7 +334,7 @@
+           const nCard = document.createElement('div');
+           nCard.className = 'matrix-node' + (locked ? ' locked' : '') + (maxed ? ' maxed' : '');
+ 
+-          const pips = '◆'.repeat(rank) + '◇'.repeat(node.max - rank);
++          const pips = '◆'.repeat(rank) + '◇'.repeat(Math.max(0, node.max - rank));
+           const top = document.createElement('div');
+           top.className = 'node-top';
+           top.innerHTML = '<strong>' + (locked ? '🔒 ' : '') + node.name + '</strong><span class="node-pips">' + pips + ' ' + rank + '/' + node.max + '</span>';
+--- original/js/weapons.js
++++ fixed/js/weapons.js
+@@ -399,9 +399,10 @@
+               /* Pull towards beam center */
+               const perpPull = 210 * W.S * 0.1;
+               if (Math.abs(o.side) > 2) {
+-                const pullDir = o.side > 0 ? -1 : 1;
+-                o.e.x += -dy * pullDir * perpPull;
+-                o.e.y += dx * pullDir * perpPull;
++                const pullDir = o.side > 0 ? 1 : -1;
++                const amount = Math.min(perpPull, Math.abs(o.side));
++                o.e.x += -dy * pullDir * amount;
++                o.e.y += dx * pullDir * amount;
+               }
+             });
+             W.effects.push({
+--- original/tests/core_playwright.py
++++ fixed/tests/core_playwright.py
+@@ -1,3 +1,4 @@
++import os
+ from playwright.sync_api import sync_playwright
+ from pathlib import Path
+ import json,time
+@@ -5,7 +6,7 @@
+ checks=[]
+ def check(name,v,detail=''):checks.append({'name':name,'pass':bool(v),'detail':detail});print('PASS' if v else 'FAIL',name,detail)
+ with sync_playwright() as p:
+- b=p.chromium.launch();c=b.new_context(viewport={'width':1280,'height':720});pg=c.new_page();logs=[];req=[];pg.on('pageerror',lambda e:logs.append(str(e)));pg.on('console',lambda m:logs.append(m.text) if m.type in ['error','warning'] else None);pg.on('request',lambda r:req.append(r.url));pg.goto(URL);pg.wait_for_timeout(200)
++ b=p.chromium.launch(**({"executable_path": os.environ["NEON_CHROME"], "args": ["--no-sandbox"]} if os.environ.get("NEON_CHROME") else {}));c=b.new_context(viewport={'width':1280,'height':720});pg=c.new_page();logs=[];req=[];pg.on('pageerror',lambda e:logs.append(str(e)));pg.on('console',lambda m:logs.append(m.text) if m.type in ['error','warning'] else None);pg.on('request',lambda r:req.append(r.url));pg.goto(URL);pg.wait_for_timeout(200)
+  check('boot MENU',pg.evaluate('NR.game.state')=='MENU');check('debug hidden on normal URL',True,'checked separately below')
+  check('integrated smoke test',pg.evaluate('NR.test.run()')['ok'],pg.evaluate('NR.game.state'))
+  pg.evaluate('NR.game.startRun(true);NR.player.god=true;__neonRift.giveXP(250)');pg.wait_for_timeout(150)
+--- original/tests/effects_playwright.py
++++ fixed/tests/effects_playwright.py
+@@ -1,10 +1,11 @@
++import os
+ from playwright.sync_api import sync_playwright
+ import json
+ from pathlib import Path
+ checks=[]
+ def ck(n,v,d=''):checks.append({'name':n,'pass':bool(v),'detail':d});print('PASS' if v else 'FAIL',n,d)
+ with sync_playwright() as pw:
+- b=pw.chromium.launch();pg=b.new_page(viewport={'width':1280,'height':720});errs=[];pg.on('pageerror',lambda e:errs.append(str(e)));pg.goto((Path(__file__).resolve().parents[1]/'index.html').as_uri()+'?debug=1');pg.evaluate('NR.game.startRun(true);NR.player.god=true')
++ b=pw.chromium.launch(**({"executable_path": os.environ["NEON_CHROME"], "args": ["--no-sandbox"]} if os.environ.get("NEON_CHROME") else {}));pg=b.new_page(viewport={'width':1280,'height':720});errs=[];pg.on('pageerror',lambda e:errs.append(str(e)));pg.goto((Path(__file__).resolve().parents[1]/'index.html').as_uri()+'?debug=1');pg.evaluate('NR.game.startRun(true);NR.player.god=true')
+  r=pg.evaluate('''()=>{const N=NR,W=N.world,p=N.player.p;let out={};N.game.setState('PLAYING');p.upgrades={};p.buffs={};p.weapon='pulse';const e=N.enemies.create('tank',p.x+100,p.y,1,true);e.hp=e.maxHp=10000;
+ N.progress.install('burn');N.combat.hit(e,100,e.x,e.y);out.burn=e.burns.length>0;N.progress.install('freeze');N.rng.chance=()=>true;N.combat.hit(e,10,e.x,e.y);out.freeze=e.slow===2;N.progress.install('chain');const e2=N.enemies.create('tank',e.x+20,e.y,1,true);N.combat.hit(e,10,e.x,e.y);out.chain=e2.hp<90;N.progress.install('explosive');const e3=N.enemies.create('tank',e.x+25,e.y,1,true);N.combat.hit(e,10,e.x,e.y);out.explosive=e3.hp<90;N.progress.install('singularity');p.singularityTimer=12;N.player.update(1/60);out.singularity=!!W.well;
+ p.upgrades={barrier:1};p.hp=21;p.invuln=0;N.player.god=false;N.player.damage(10);out.barrier=p.barrierUsed&&p.invuln===1.5&&p.hp===26;
+--- original/tests/playthrough_playwright.py
++++ fixed/tests/playthrough_playwright.py
+@@ -1,10 +1,11 @@
++import os
+ from playwright.sync_api import sync_playwright
+ import json,math,time
+ from pathlib import Path
+ URL=(Path(__file__).resolve().parents[1]/'index.html').as_uri()+'?debug=1'
+ results={}
+ with sync_playwright() as p:
+- b=p.chromium.launch();c=b.new_context(viewport={'width':1280,'height':720});pg=c.new_page();errs=[];pg.on('pageerror',lambda e:errs.append(str(e)));pg.goto(URL)
++ b=p.chromium.launch(**({"executable_path": os.environ["NEON_CHROME"], "args": ["--no-sandbox"]} if os.environ.get("NEON_CHROME") else {}));c=b.new_context(viewport={'width':1280,'height':720});pg=c.new_page();errs=[];pg.on('pageerror',lambda e:errs.append(str(e)));pg.goto(URL)
+  # complete natural waves and boss with aim controller. God isolates tuning only; no arbitrary damage/XP.
+  result=pg.evaluate('''()=>{NR.rng.seed(99);NR.game.startRun(true);NR.player.god=true;const W=NR.world,p=NR.player.p,I=NR.input;let bossStart=0,bossTime=0,levelWaves=[],lastLevel=1,maxes={enemies:0,bullets:0,enemyBullets:0,gems:0,particles:0,floating:0,effects:0};for(let f=0;f<60*1200;f++){const st=NR.game.state;if(st==='LEVEL_UP'||st==='BOSS_REWARD'){NR.ui.update(.5);NR.ui.choose(0);NR.ui.update(1);continue;}if(st==='BOSS_INTRO'){NR.game.step(3);bossStart=W.runTime;continue;}let e=W.boss&&!W.boss.dead?W.boss:W.enemies.find(e=>!e.dead&&!e.cloak);if(e){I.aim.x=e.x;I.aim.y=e.y;}else if(W.gems.list.length){const g=W.gems.list[0];I.aim.x=g.x;I.aim.y=g.y;}I.mouse.down=true;I.keys.clear();let dest=W.boss?{x:W.boss.x,y:W.boss.y+W.boss.r+170}:W.gems.list[0]||{x:W.W/2,y:W.H/2};if(p.x<dest.x-15)I.keys.add('d');if(p.x>dest.x+15)I.keys.add('a');if(p.y<dest.y-15)I.keys.add('s');if(p.y>dest.y+15)I.keys.add('w');NR.game.step(1/60);if(p.level!==lastLevel){levelWaves.push({level:p.level,wave:W.wave,time:W.runTime});lastLevel=p.level;}if(W.bossKills>0&&!bossTime)bossTime=W.runTime-bossStart;maxes.enemies=Math.max(maxes.enemies,W.enemies.length);for(const k of ['bullets','enemyBullets','gems','particles','floating'])maxes[k]=Math.max(maxes[k],W[k].list.length);maxes.effects=Math.max(maxes.effects,W.effects.length);if(W.wave>=11)break;}return{wave:W.wave,level:p.level,bossKills:W.bossKills,bossTime,kills:W.kills,runTime:W.runTime,levelWaves,maxes,state:NR.game.state};}''');results['natural_wave_playthrough']=result;print('playthrough',json.dumps(result))
+  # boss fire-only base weapon tuning, moving aim controller god active
+--- original/tests/targeted_playwright.py
++++ fixed/tests/targeted_playwright.py
+@@ -1,13 +1,14 @@
++import os
+ from playwright.sync_api import sync_playwright
+ from pathlib import Path
+ import json
+ out={}
+ with sync_playwright() as p:
+- b=p.chromium.launch();pg=b.new_page(viewport={'width':1280,'height':720});err=[];pg.on('pageerror',lambda e:err.append(str(e)));pg.goto((Path(__file__).resolve().parents[1]/'index.html').as_uri()+'?debug=1')
++ b=p.chromium.launch(**({"executable_path": os.environ["NEON_CHROME"], "args": ["--no-sandbox"]} if os.environ.get("NEON_CHROME") else {}));pg=b.new_page(viewport={'width':1280,'height':720});err=[];pg.on('pageerror',lambda e:err.append(str(e)));pg.goto((Path(__file__).resolve().parents[1]/'index.html').as_uri()+'?debug=1')
+  out['hazards']=pg.evaluate('''()=>{NR.game.startRun(true);const W=NR.world,p=NR.player.p;NR.player.god=false;p.x=640;p.y=360;let out={};for(const id of ['mine','zone','drag']){p.hp=100;p.invuln=0;W.hazards=[{id,x:p.x,y:p.y,r:90,age:0,warning:NR.HAZARDS[id].warning,life:NR.HAZARDS[id].life,fuse:0,tick:0}];NR.waves.variety(.5);const safe=p.hp===100;for(let i=0;i<120;i++)NR.waves.variety(1/60);out[id]={telegraphSafe:safe,damage:100-p.hp};}return out;}''')
+  out['pause_freeze']=pg.evaluate('''()=>{NR.game.startRun(true);NR.player.p.abilityCd=5;NR.player.p.buffs.core=4;NR.game.setState('PAUSED');const before=JSON.stringify({t:NR.world.t,c:NR.player.p.abilityCd,b:NR.player.p.buffs,r:NR.world.runTime});for(let i=0;i<120;i++)NR.game.step(1/60);return before===JSON.stringify({t:NR.world.t,c:NR.player.p.abilityCd,b:NR.player.p.buffs,r:NR.world.runTime});}''')
+  out['spawn_safety']=pg.evaluate('''()=>{NR.game.startRun(true);const W=NR.world,p=NR.player.p;let min=Infinity;for(let i=0;i<100;i++){NR.waves.schedule('chaser');const t=W.telegraphs.at(-1);min=Math.min(min,Math.hypot(t.x-p.x,t.y-p.y));}return min;}''')
+- out['rarity_and_fallback']=pg.evaluate('''()=>{const p=NR.player.p;p.upgrades={};p.weapon='rail';p.level=1;let valid=true;for(let i=0;i<100;i++){const a=NR.progress.offer(false);if(a.some(d=>['Epic','Legendary'].includes(d.rarity)||d.tags&&d.tags.length&&!d.tags.includes('rail'))||new Set(a.map(d=>d.id)).size!==3)valid=false;}Object.values(NR.UPGRADES).forEach(d=>p.upgrades[d.id]=d.maxLevel);const a=NR.progress.offer(false);return{valid,fallback:a.length===3&&a.every(d=>d.id.startsWith('fallback'))};}''')
++ out['rarity_and_fallback']=pg.evaluate('''()=>{const p=NR.player.p;p.upgrades={};p.weapon='rail';p.level=1;let valid=true;for(let i=0;i<100;i++){const a=NR.progress.offer(false);if(a.some(d=>['Epic','Legendary'].includes(d.rarity)||d.tags&&d.tags.length&&!d.tags.includes('rail'))||new Set(a.map(d=>d.id)).size!==3)valid=false;}Object.values(NR.UPGRADES).forEach(d=>p.upgrades[d.id]=d.maxLevel);const a=NR.progress.offer(false);return{valid,fallback:a.length===3&&a.every(d=>d.id.startsWith('fallback')||d.isEvolution)};}''')
+  out['ship_tradeoffs']=pg.evaluate('''()=>{const a={};for(const ship of Object.keys(NR.SHIPS)){NR.save.data.loadout.ship=ship;NR.game.startRun(true);a[ship]=NR.stats.get();}return a;}''')
+  out['boss_intro_skip']=pg.evaluate('''()=>{NR.game.startRun(true);NR.waves.setWave(5);NR.game.step(1.1);NR.bus.emit('input:any');NR.game.step(.01);return NR.game.state;}''')
+  out['damage_dash_immunity']=pg.evaluate('''()=>{const p=NR.player.p;p.hp=p.maxHp;p.invuln=.3;NR.player.damage(25);return p.hp===p.maxHp;}''')

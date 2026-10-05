@@ -1,0 +1,211 @@
+.veil { position: fixed; inset: 0; display: grid; place-items: center; z-index: 5; padding: 20px;
+  background: linear-gradient(120deg, #040913e9, #091325dc 55%, #080b18e9); backdrop-filter: blur(5px); overflow-y: auto; }
+.veil.hidden { display: none; }
+.card { width: min(560px, 100%); padding: clamp(24px, 5vw, 44px); border: 1px solid #37717b;
+  background: linear-gradient(145deg, #11293cc9, #0b1228eb); box-shadow: 0 0 0 1px #2bf8d41b, 0 0 100px #00dace21;
+  border-radius: 14px; text-align: center; animation: cardIn .35s ease-out; }
+@keyframes cardIn { from { opacity: 0; transform: translateY(8px) scale(.985); } to { opacity: 1; transform: none; } }
+.eyebrow { color: #56eade; font-weight: 800; font-size: 12px; letter-spacing: .32em; }
+.card h1 { font-size: clamp(42px, 9vw, 80px); line-height: .97; margin: 16px 0; letter-spacing: -.065em; text-shadow: 0 0 45px #39efff7e; }
+.card h1 span { color: #68fce6; }
+.card p { color: #b4cada; line-height: 1.65; max-width: 390px; margin: 20px auto; }
+.card .info { font-size: 12px; color: #8eaabb; margin: 25px auto; line-height: 2; }
+.card .info b { color: #e7ffff; }
+.buttons { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.primary, .ghost { font-size: 13px; font-weight: 800; letter-spacing: .13em; cursor: pointer; border-radius: 5px; min-height: 48px; padding: 14px 28px; width: min(100%, 320px); transition: transform .15s, background .15s, border-color .15s; }
+.primary { background: #5df2da; color: #071721; border: 0; box-shadow: 0 0 26px #38fdd454; }
+.primary:hover { background: #bdfff2; transform: translateY(-2px); }
+.ghost { background: transparent; color: #d4faff; border: 1px solid #4b768a; }
+.ghost:hover { border-color: #60ffee; transform: translateY(-1px); }
+.badge { display: inline-block; padding: 8px 12px; border: 1px solid #5df2da7a; border-radius: 5px; font-size: 12px; color: #79fce9; }
+.footer { margin-top: 26px; font-size: 10px; letter-spacing: .16em; color: #5f7a8c; }
+@media (max-height: 520px) { .card h1 { font-size: 36px; margin: 8px 0; } .card p { margin: 8px auto; } .card .info { margin: 10px auto; line-height: 1.6; } }
+
+/* Evolved Protocol Card Styling */
+.protocol.evolved {
+  border: 2px solid #54F1DC;
+  background: linear-gradient(145deg, #102d3d, #1a162b);
+  box-shadow: 0 0 25px #54f1dc55, 0 0 45px #ffbd6633, inset 0 0 20px #54f1dc22;
+  position: relative;
+  overflow: hidden;
+}
+.protocol.evolved::before {
+  content: '★ EVOLVED ★';
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .15em;
+  color: #FFBD66;
+  text-shadow: 0 0 10px #ffbd66;
+}
+.protocol.evolved h3 {
+  color: #7DFDF3;
+  text-shadow: 0 0 16px #54f1dc;
+}
+.protocol.evolved .protocol-icon {
+  color: #FFBD66;
+  text-shadow: 0 0 20px #ffbd66;
+}
+
+/* Core Protocol Matrix (Talent Grid) Styling */
+.armory-nav {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.armory-nav button {
+  min-width: 170px;
+  padding: 12px 20px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .15em;
+  border-radius: 6px;
+}
+.matrix-container {
+  text-align: left;
+  margin-top: 10px;
+}
+.matrix-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #243949;
+  margin-bottom: 20px;
+}
+.matrix-shards {
+  font-size: 14px;
+  font-weight: 800;
+  color: #7DFDF3;
+  letter-spacing: .1em;
+  text-shadow: 0 0 12px #54f1dc66;
+}
+.matrix-branches {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+@media (max-width: 860px) {
+  .matrix-branches {
+    grid-template-columns: 1fr;
+  }
+}
+.matrix-branch {
+  background: #091522;
+  border: 1px solid #1d3345;
+  border-radius: 8px;
+  padding: 16px;
+}
+.matrix-branch h2 {
+  font-size: 13px;
+  letter-spacing: .2em;
+  margin: 0 0 14px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #243949;
+}
+.matrix-branch.offense h2 { color: #F85D9C; border-color: #f85d9c44; text-shadow: 0 0 10px #f85d9c55; }
+.matrix-branch.defense h2 { color: #54F1DC; border-color: #54f1dc44; text-shadow: 0 0 10px #54f1dc55; }
+.matrix-branch.utility h2 { color: #FFBD66; border-color: #ffbd6644; text-shadow: 0 0 10px #ffbd6655; }
+
+.matrix-nodes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.matrix-node {
+  background: #102136;
+  border: 1px solid #21394d;
+  border-radius: 6px;
+  padding: 12px;
+  transition: border-color .15s, transform .15s;
+}
+.matrix-node:hover:not(.locked) {
+  border-color: #54F1DC;
+  transform: translateY(-2px);
+}
+.matrix-node.locked {
+  opacity: .5;
+  background: #0b141f;
+  border-color: #172635;
+}
+.matrix-node.maxed {
+  border-color: #ffbd66;
+  box-shadow: 0 0 12px #ffbd6622;
+}
+.node-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.node-top strong {
+  font-size: 12px;
+  letter-spacing: .08em;
+  color: #EBFAFF;
+}
+.node-pips {
+  font-size: 11px;
+  letter-spacing: .15em;
+  color: #7DFDF3;
+}
+.matrix-node.maxed .node-pips { color: #FFBD66; }
+.node-desc {
+  font-size: 11px;
+  color: #8BA3B6;
+  line-height: 1.4;
+  margin: 6px 0 10px 0 !important;
+}
+.node-action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.node-action button {
+  width: 100% !important;
+  min-height: 36px !important;
+  padding: 8px 12px !important;
+  font-size: 11px !important;
+  letter-spacing: .1em;
+}
+
+/* Save Export / Import Modal Styling */
+.save-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: left;
+}
+.save-modal textarea {
+  width: 100%;
+  height: 110px;
+  background: #091322;
+  border: 1px solid #243949;
+  border-radius: 6px;
+  color: #7DFDF3;
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  padding: 10px;
+  resize: vertical;
+}
+.save-modal textarea:focus {
+  border-color: #54F1DC;
+  outline: none;
+}
+.save-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.save-actions button {
+  flex: 1;
+  min-width: 140px;
+  min-height: 42px !important;
+  font-size: 11px !important;
+}
+

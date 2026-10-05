@@ -1,0 +1,127 @@
+[
+  {
+    "name": "burn",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "freeze",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "chain",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "explosive",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "singularity",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "barrier",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "revive",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "regen",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "ram",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "overkill",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "pickup_shield",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "pickup_overdrive",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "pickup_core",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "pickup_phase",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "pickup_magnet",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "pickup_berserk",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "gemCap",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "elite affixes respect cap",
+    "pass": true,
+    "detail": 1
+  },
+  {
+    "name": "real input movement dash shoot",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "death summary visible",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "restart resets run",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "reduced motion immediate",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "audio voice budget",
+    "pass": true,
+    "detail": 1
+  },
+  {
+    "name": "V1 best-score migration",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "name": "extra tests console clean",
+    "pass": true,
+    "detail": []
+  }
+]
